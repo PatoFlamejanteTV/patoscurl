@@ -26,11 +26,11 @@ app.get('/', (req, res) => {
                 console.error(err);
                 res.status(500).send('Error reading indexcurl.txt');
             } else {
-                const endTime = Date.now(); // Record end time for delay calculation
-                const delay = endTime - startTime; // Calculate the delay
+                //const endTime = Date.now(); // Record end time for delay calculation
+                //const delay = endTime - startTime; // Calculate the delay
 
                 // Add server info and debug data to the response
-                const serverInfo = `Server Info:\nIP Address: ${ipAddress}\nDelay: ${delay}ms`; //glitchy
+                const serverInfo = `\n\n\nServer Info:\nIP Address: ${ipAddress}\n`;
                 res.type('text/plain'); // Set content type to plain text
                 res.send(`${serverInfo}\n${data}`);
             }

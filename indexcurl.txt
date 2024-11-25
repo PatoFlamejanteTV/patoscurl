@@ -1,5 +1,5 @@
-TIP: Use "cls" to clean the previous CURL outputs ;)
-PROTIP: Wanna make your own patoscurl? Fork. Edit. Deploy. :D
+>TIP: Use "cls" to clean the previous CURL outputs ;)_
+>PROTIP: Wanna make your own patoscurl? Fork. Edit. Deploy. :D_
 
 ||////////////////////////////////////////////////////////////////////////||
 ||              __                                   .__                  ||
