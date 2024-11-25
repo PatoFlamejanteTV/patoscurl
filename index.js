@@ -15,9 +15,16 @@ app.use(detectCurl);
 // Route to handle requests
 app.get('/', (req, res) => {
     if (req.isCurl) {
-        // Respond with plain text for curl requests
-        res.type('text/plain');
-        res.send("Hello, World!\nThis is a text-only response for curl.");
+        // Respond with the content of indexcurl.html for curl requests
+        fs.readFile('indexcurl.txt', 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send('Error reading indexcurl.txt');
+            } else {
+                res.type('text/plain'); // Set content type to plain text
+                res.send(data);
+            }
+        });
     } else {
         // Respond with the content of indexbrowser.html for browser requests
         fs.readFile('indexbrowser.html', 'utf8', (err, data) => {
