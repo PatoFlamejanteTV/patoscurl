@@ -49,6 +49,27 @@ app.get('/', (req, res) => {
     }
 });
 
+// Route for subpages
+app.get('/:subpage', (req, res) => {
+    const subpage = req.params.subpage;
+    const filePath = `./${subpage}.txt`;
+
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(404).send('Subpage not found');
+        } else {
+            if (req.isCurl) {
+                res.type('text/plain');
+                res.send(data);
+            } else {
+                res.type('text/html');
+                res.send(data);
+            }
+        }
+    });
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
