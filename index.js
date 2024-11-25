@@ -14,15 +14,23 @@ app.use(detectCurl);
 
 // Route to handle requests
 app.get('/', (req, res) => {
+    const startTime = Date.now(); // Record start time for delay calculation
+    const ipAddress = req.socket.remoteAddress; // Get client IP address
+
     if (req.isCurl) {
-        // Respond with the content of indexcurl.html for curl requests
+        // Respond with the content of indexcurl.txt for curl requests
         fs.readFile('indexcurl.txt', 'utf8', (err, data) => {
             if (err) {
                 console.error(err);
                 res.status(500).send('Error reading indexcurl.txt');
             } else {
+                const endTime = Date.now(); // Record end time for delay calculation
+                const delay = endTime - startTime; // Calculate the delay
+
+                // Add server info and debug data to the response
+                const serverInfo = `Server Info:\nIP Address: ${ipAddress}\nDelay: ${delay}ms`; //glitchy
                 res.type('text/plain'); // Set content type to plain text
-                res.send(data);
+                res.send(`${serverInfo}\n${data}`);
             }
         });
     } else {
