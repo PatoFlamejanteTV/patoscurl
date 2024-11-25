@@ -3,6 +3,8 @@ const fs = require('fs'); // Import the fs module for file system operations
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+//const CURLDEBUGASCII = process.env.CURLDEBUGASCII || 1234;
+
 // Middleware to check if the request is from curl
 function detectCurl(req, res, next) {
     const userAgent = req.headers['user-agent'] || '';
