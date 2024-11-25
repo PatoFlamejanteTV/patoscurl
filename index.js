@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs'); // Import the fs module for file system operations
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -18,30 +19,16 @@ app.get('/', (req, res) => {
         res.type('text/plain');
         res.send("Hello, World!\nThis is a text-only response for curl.");
     } else {
-        // Respond with HTML for browser requests
-        res.type('text/html');
-        res.send(`
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Hello World</title>
-                <style>
-                    body {
-                        font-family: Arial, sans-serif;
-                        margin: 0;
-                        padding: 20px;
-                        background-color: #f4f4f4;
-                    }
-                </style>
-            </head>
-            <body>
-                <h1>Hello, World!</h1>
-                <p>This is a full HTML response for modern browsers.</p>
-            </body>
-            </html>
-        `);
+        // Respond with the content of indexbrowser.html for browser requests
+        fs.readFile('indexbrowser.html', 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send('Error reading indexbrowser.html');
+            } else {
+                res.type('text/html');
+                res.send(data);
+            }
+        });
     }
 });
 
