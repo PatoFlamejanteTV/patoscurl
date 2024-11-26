@@ -1,6 +1,6 @@
 const express = require("express");
-const fs = require("fs"); // Import the fs module for file system operations
-const os = require("os"); // Import the os module for system information
+const fs = require("fs");   // Import the fs module for file system operations
+const os = require("os");   // Import the os module for system information
 const dns = require("dns"); // Import the dns module for DNS resolution
 const app = express();
 const PORT = process.env.PORT || 3000;
