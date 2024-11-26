@@ -130,6 +130,24 @@ app.get("/TEST/debug", (req, res) => {
   });
 });
 
+app.get("/TEST/mem", (req, res) => {
+  console.log(req.socket.remoteAddress + ". isCURL? " + req.isCurl);
+  const totalMemory = os.totalmem() / (1024 * 1024); // Get total memory in MB
+  const freeMemory = os.freemem() / (1024 * 1024); // Get free memory in MB
+  const cpuCount = os.cpus().length; // Get the number of CPU cores
+  const uptime = os.uptime(); // Get the server uptime in seconds
+
+    // Send the debug information as HTML
+    res.type("text/plain");
+    res.send(`
+            Total Memory: ${totalMemory} MB
+            Free Memory: ${freeMemory} MB
+            CPU Cores: ${cpuCount} cores
+            Uptime: ${uptime}`
+            );
+  });
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
