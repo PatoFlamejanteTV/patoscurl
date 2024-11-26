@@ -1,7 +1,10 @@
 const express = require('express');
 const fs = require('fs'); // Import the fs module for file system operations
+const os = require('os'); // Import the os module for system information
+const dns = require('dns'); // Import the dns module for DNS resolution
 const app = express();
 const PORT = process.env.PORT || 3000;
+
 
 //const CURLDEBUGASCII = process.env.CURLDEBUGASCII || 1234;
 
@@ -67,6 +70,60 @@ app.get('/:subpage', (req, res) => {
                 res.send(data);
             }
         }
+    });
+});
+
+// Route for the debug subpage
+app.get('/TEST/debug', (req, res) => {
+    const ipAddress = req.socket.remoteAddress; // Get client IP address
+    const userAgent = req.headers['user-agent'] || '';
+    const hostname = os.hostname(); // Get the hostname of the server
+    const platform = os.platform(); // Get the operating system
+    const arch = os.arch(); // Get the system architecture
+    const totalMemory = os.totalmem() / (1024 * 1024); // Get total memory in MB
+    const freeMemory = os.freemem() / (1024 * 1024); // Get free memory in MB
+    const cpuCount = os.cpus().length; // Get the number of CPU cores
+    const uptime = os.uptime(); // Get the server uptime in seconds
+
+    // Get DNS information
+    dns.lookup(hostname, (err, addresses, family) => {
+        if (err) {
+            console.error(err);
+            addresses = 'N/A';
+        }
+
+        // Get lines of code
+        let totalLines = 0;
+        const files = ['index.js', 'indexbrowser.html', 'indexcurl.txt', 'cat.txt', 'cat2.txt', 'etest.txt', 'panther.txt']; // Add other file paths as needed
+        files.forEach(file => {
+            const content = fs.readFileSync(file, 'utf8');
+            totalLines += content.split('\n').length;
+        });
+
+        const NPMVERSION = process.env.npm_package_version;
+        
+        // Construct the debug information
+        const debugInfo = `
+            Debug Information
+            Client IP Address: ${ipAddress}
+            User Agent: ${userAgent}
+            Server Hostname: ${hostname}
+            Server Platform: ${platform}
+            Server Architecture: ${arch}
+            Total Memory: ${totalMemory.toFixed(2)} MB
+            Free Memory: ${freeMemory.toFixed(2)} MB
+            CPU Cores: ${cpuCount}
+            Uptime: ${Math.floor(uptime / 60 / 60)} hours, ${Math.floor((uptime % 3600) / 60)} minutes
+            DNS Lookup (IP): ${addresses}
+            Lines of Code (and ASCII): ${totalLines}
+            NPM ver: ${NPMVERSION}
+        `;
+
+        //console.log(debugInfo);
+        
+        // Send the debug information as HTML
+        res.type('text/html');
+        res.send(debugInfo);
     });
 });
 
