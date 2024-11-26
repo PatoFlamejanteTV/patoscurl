@@ -26,4 +26,4 @@ PatosCURL: A project by...
                                 OPTIONS:
                                 SUBPAGES
                                 
-[cat]                 [cat2]                 [etest]                 [panther]                 [blog]                 [myintroduction]                 [asciispam]                 []                 []                 []                 []                 []                 []                 []                 []                 []                 []                 []
+[cat]                 [cat2]                 [etest]                 [panther]                 [blog]                 [myintroduction]                 [asciispam]                 [ducklarge/small]                 [meow]                 []                 []                 []                 []                 []                 []                 []                 []                 []
