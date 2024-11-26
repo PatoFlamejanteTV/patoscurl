@@ -7,9 +7,9 @@
     "test": "npm i mocha && mocha --recursive index.js",
     "bump-version": "npm version patch"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["curl", "libcurl", "ascii", "blog", "npm", "nodejs", "cli", "terminal", "terminal-cli", "terminal-app","],
+  "author": "PatoFlamejanteTV",
+  "license": "MIT",
   "dependencies": {
     "@types/node": "^18.0.6",
     "express": "^4.21.1"
