@@ -146,7 +146,6 @@ app.get("/TEST/mem", (req, res) => {
             Uptime: ${uptime}`
             );
   });
-});
 
 // Start the server
 app.listen(PORT, () => {
