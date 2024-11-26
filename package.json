@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --recursive test",
+    "bump-version": "npm version patch"
   },
   "keywords": [],
   "author": "",
