@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
   const startTime = Date.now(); // Record start time for delay calculation
   const ipAddress = req.socket.remoteAddress; // Get client IP address
 
-  console.log(req.socket.remoteAddress + ". isCURL? " + req.isCurl);
+  console.log("/ " + req.socket.remoteAddress + ". isCURL? " + req.isCurl);
   if (req.isCurl) {
     // Respond with the content of indexcurl.txt for curl requests
     fs.readFile("indexcurl.txt", "utf8", (err, data) => {
@@ -54,7 +54,7 @@ app.get("/", (req, res) => {
 
 // Route for subpages
 app.get("/:subpage", (req, res) => {
-  console.log(req.socket.remoteAddress + ". isCURL? " + req.isCurl);
+  console.log("/${subpage}" + req.socket.remoteAddress + ". isCURL? " + req.isCurl);
   //console.log(req.socket.remoteAddress);
   const subpage = req.params.subpage;
   const filePath = `./${subpage}.txt`;
@@ -77,7 +77,7 @@ app.get("/:subpage", (req, res) => {
 
 // Route for the debug subpage
 app.get("/TEST/debug", (req, res) => {
-  console.log(req.socket.remoteAddress + ". isCURL? " + req.isCurl);
+  console.log("/TEST/debug " + req.socket.remoteAddress + ". isCURL? " + req.isCurl);
   const ipAddress = req.socket.remoteAddress; // Get client IP address
   const userAgent = req.headers["user-agent"] || "";
   const hostname = os.hostname(); // Get the hostname of the server
@@ -131,7 +131,7 @@ app.get("/TEST/debug", (req, res) => {
 });
 
 app.get("/TEST/mem", (req, res) => {
-  console.log(req.socket.remoteAddress + ". isCURL? " + req.isCurl);
+  console.log("/TEST/mem " + req.socket.remoteAddress + ". isCURL? " + req.isCurl);
   const totalMemory = os.totalmem() / (1024 * 1024); // Get total memory in MB
   const freeMemory = os.freemem() / (1024 * 1024); // Get free memory in MB
   const cpuCount = os.cpus().length; // Get the number of CPU cores
