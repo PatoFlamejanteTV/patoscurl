@@ -94,7 +94,7 @@ app.get('/TEST/debug', (req, res) => {
 
         // Get lines of code
         let totalLines = 0;
-        const files = ['index.js', 'indexbrowser.html', 'indexcurl.txt', 'cat.txt', 'cat2.txt', 'etest.txt', 'panther.txt']; // Add other file paths as needed
+        const files = ['*']; // Add other file paths as needed
         files.forEach(file => {
             const content = fs.readFileSync(file, 'utf8');
             totalLines += content.split('\n').length;
