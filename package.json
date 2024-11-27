@@ -1,11 +1,12 @@
 {
-  "name": "nodets",
+  "name": "patoscurl",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
-    "test": "npm i mocha && mocha --recursive index.ts",
-    "bump-version": "npm version patch"
+    "test": "npm i mocha && mocha --recursive index.js",
+    "bump-version": "npm version patch",
+    "update-npm": "npm update -g npm"
   },
   "keywords": [
     "curl",
@@ -17,17 +18,14 @@
     "cli",
     "terminal",
     "terminal-cli",
-    "terminal-app"
+    "terminal-app",
+    "javascript",
+    "js"
   ],
   "author": "PatoFlamejanteTV",
   "license": "MIT",
   "dependencies": {
     "express": "^4.21.1",
     "ping": "^0.4.4"
-  },
-  "devDependencies": {
-    "@types/node": "^22.10.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.7.2"
   }
 }
