@@ -1,7 +1,35 @@
+"use strict";
+// https://github.com/PatoFlamejanteTV/patoscurl
+
+/*
+MIT License
+
+Copyright (c) 2024 UltimateQuack
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+////////////////////////////////////////////////////
 const express = require("express");
-const fs = require("fs");   // Import the fs module for file system operations
-const os = require("os");   // Import the os module for system information
-const dns = require("dns"); // Import the dns module for DNS resolution
+const fs = require("fs");     // Import the fs module for file system operations
+const os = require("os");     // Import the os module for system information
+const dns = require("dns");   // Import the dns module for DNS resolution
+const ping = require('ping'); // Import the ping module for pinging
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -18,7 +46,7 @@ app.use(detectCurl);
 
 // Route to handle requests
 app.get("/", (req, res) => {
-  const startTime = Date.now(); // Record start time for delay calculation
+  //const startTime = Date.now(); // Record start time for delay calculation
   const ipAddress = req.socket.remoteAddress; // Get client IP address
 
   console.log("/ " + req.socket.remoteAddress + ". isCURL? " + req.isCurl);
@@ -89,7 +117,7 @@ app.get("/TEST/debug", (req, res) => {
   const uptime = os.uptime(); // Get the server uptime in seconds
 
   // Get DNS information
-  dns.lookup(hostname, (err, addresses, family) => {
+  dns.lookup(hostname, (err, addresses) => {
     if (err) {
       console.error(err);
       addresses = "N/A";
@@ -130,6 +158,7 @@ app.get("/TEST/debug", (req, res) => {
   });
 });
 
+// Route for the server memory/hardware subpage
 app.get("/TEST/mem", (req, res) => {
   console.log("/TEST/mem " + req.socket.remoteAddress + ". isCURL? " + req.isCurl);
   const totalMemory = os.totalmem() / (1024 * 1024); // Get total memory in MB
@@ -146,6 +175,37 @@ app.get("/TEST/mem", (req, res) => {
             Uptime: ${uptime}`
             );
   });
+
+// Route for the ping subpage
+app.get("/TEST/ping", (req, res) => {
+  console.log("/TEST/ping " + req.socket.remoteAddress + ". isCURL? " + req.isCurl);
+
+  // Ping Google
+  ping.sys.probe('google.com', (isAlive) => {
+    if (isAlive) {
+      // Send a "Pong!" response with ping time
+      ping.promise.probe('google.com')
+        .then(result => {
+          res.type("text/plain");
+          res.send(`
+            Pong! Server ping to Google.com: ${result.time} ms
+          `);
+        })
+        .catch(error => {
+          console.error("Error pinging Google:", error);
+          res.type("text/plain");
+          res.send(`
+            Error pinging Google.com: ${error.message}
+          `);
+        });
+    } else {
+      res.type("text/plain");
+      res.send(`
+        Google.com is down!
+      `);
+    }
+  });
+});
 
 // Start the server
 app.listen(PORT, () => {

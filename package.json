@@ -23,6 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "^18.0.6",
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "ping": "^0.4.4"
   }
 }
