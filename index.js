@@ -29,7 +29,7 @@ const express = require("express");
 const fs = require("fs");     // Import the fs module for file system operations
 const os = require("os");     // Import the os module for system information
 const dns = require("dns");   // Import the dns module for DNS resolution
-const ping = require('ping'); // Import the ping module for pinging
+//const ping = require('ping'); // Import the ping module for pinging
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -94,9 +94,11 @@ app.get("/:subpage", (req, res) => {
     } else {
       if (req.isCurl) {
         res.type("text/plain");
+        res.status(200).send("Subpage found");
         res.send(data);
       } else {
         res.type("text/html");
+        res.status(405).send("Please use CURL next time");
         res.send(data);
       }
     }
