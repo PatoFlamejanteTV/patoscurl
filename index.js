@@ -177,7 +177,7 @@ app.get("/TEST/mem", (req, res) => {
   });
 
 // Route for the ping subpage
-app.get("/TEST/ping", (req, res) => {
+/*app.get("/TEST/ping", (req, res) => {
   console.log("/TEST/ping " + req.socket.remoteAddress + ". isCURL? " + req.isCurl);
 
   // Ping Google
@@ -205,7 +205,7 @@ app.get("/TEST/ping", (req, res) => {
       `);
     }
   });
-});
+});*/
 
 // Start the server
 app.listen(PORT, () => {
