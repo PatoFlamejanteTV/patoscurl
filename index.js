@@ -30,6 +30,7 @@ const fs = require("fs");     // Import the fs module for file system operations
 const os = require("os");     // Import the os module for system information
 const dns = require("dns");   // Import the dns module for DNS resolution
 //const ping = require('ping'); // Import the ping module for pinging
+//const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -116,7 +117,19 @@ app.get("/TEST/debug", (req, res) => {
   const totalMemory = os.totalmem() / (1024 * 1024); // Get total memory in MB
   const freeMemory = os.freemem() / (1024 * 1024); // Get free memory in MB
   const cpuCount = os.cpus().length; // Get the number of CPU cores
+  const cpuInfo = os.cpus(); // It should return an JSON with ann CPU cores info
+  // Assuming cpuInfo is an array of objects
+  let formattedCpuInfo = "";
+  cpuInfo.forEach((cpu, index) => {
+    // Format each CPU object
+    formattedCpuInfo += `CPU ${index + 1}:\n`;
+    formattedCpuInfo += `  Model: ${cpu.model}\n`;
+    formattedCpuInfo += `  Speed: ${cpu.speed} GHz\n`; 
+    // Add more properties from your cpu object as needed
+    formattedCpuInfo += "\n";
+  });
   const uptime = os.uptime(); // Get the server uptime in seconds
+  const userInfo = os.userInfo(); // https://github.com/nodejs/node/blob/v22.x/lib/os.js#L352
 
   // Get DNS information
   dns.lookup(hostname, (err, addresses) => {
@@ -125,31 +138,32 @@ app.get("/TEST/debug", (req, res) => {
       addresses = "N/A";
     }
 
-    // Get lines of code
+    /*// Get lines of code
     let totalLines = 0;
-    const files = ["*"]; // Add other file paths as needed
-    files.forEach((file) => {
-      const content = fs.readFileSync(file, "utf8");
-      totalLines += content.split("\n").length;
-    });
+    const directory = "."; // Current directory
+    const files = fs.readdirSync(directory); // Get all files
 
-    const NPMVERSION = process.env.npm_package_version;
+    files.forEach((file) => {
+      const filePath = path.join(directory, file); // Create full path
+      const content = fs.readFileSync(filePath, "utf8");
+      totalLines += content.split("\n").length;
+    });*/
 
     // Construct the debug information
     const debugInfo = `
-            Debug Information
-            Client IP Address: ${ipAddress}
-            User Agent: ${userAgent}
-            Server Hostname: ${hostname}
-            Server Platform: ${platform}
-            Server Architecture: ${arch}
-            Total Memory: ${totalMemory.toFixed(2)} MB
-            Free Memory: ${freeMemory.toFixed(2)} MB
-            CPU Cores: ${cpuCount}
-            Uptime: ${Math.floor(uptime / 60 / 60)} hours, ${Math.floor((uptime % 3600) / 60)} minutes
-            DNS Lookup (IP): ${addresses}
-            Lines of Code (and ASCII): ${totalLines}
-            NPM ver: ${NPMVERSION}
+Debug Information
+Client IP Address: ${ipAddress}
+User Agent: ${userAgent}
+Server Hostname: ${hostname}
+Server Platform: ${platform}
+Server Architecture: ${arch}
+Total Memory: ${totalMemory.toFixed(2)} MB
+Free Memory: ${freeMemory.toFixed(2)} MB
+CPU Cores: ${cpuCount}
+Uptime: ${Math.floor(uptime / 60 / 60)} hours, ${Math.floor((uptime % 3600) / 60)} minutes
+DNS Lookup (IP): ${addresses}
+CPU Info (Advanced): ${formattedCpuInfo}
+User Info (Advanced): ${userInfo}
         `;
 
     //console.log(debugInfo);
