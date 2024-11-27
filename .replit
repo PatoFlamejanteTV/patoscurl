@@ -19,3 +19,12 @@ ignorePorts = false
 [[ports]]
 localPort = 3000
 externalPort = 80
+
+[rules]
+
+[rules.formatter]
+
+[rules.formatter.fileExtensions]
+
+[rules.formatter.fileExtensions.".js"]
+id = "module:nodejs-22/formatter:prettier"
